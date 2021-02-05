@@ -3,11 +3,11 @@
 
 File Structure for each week's work:
 
-Week_number folder 
+- Week_number folder
 
--Data folder
--Output folder
--Scripts folder
+  - Data folder
+  - Output folder
+  - Scripts folder
 
 
 
