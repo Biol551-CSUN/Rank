@@ -8,8 +8,13 @@ library(tidyverse)
 library(here)
 library(ghibli)
 
+##Data loaded in library
+##Glimpse confirms, drop empty cells
+
+glimpse(penguins)
 penguin <- drop_na(penguins)
 
+##Visual Analysis
 ggplot(data=penguins,
        mapping=aes(x=island,
          y=body_mass_g))+
