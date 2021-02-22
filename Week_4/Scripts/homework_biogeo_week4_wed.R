@@ -25,7 +25,7 @@ View(ChemData_clean_spring)
                names_to = "Variables",
                values_to = "Values") %>% 
      group_by(Variables, Zone) %>% #I am interested in how observations change by zone
-    summarise(sd_vals = sd(Values, na.rm = TRUE)) %>% #I want the standard error of these values for my final graph
+    summarise(sd_vals = sd(Values, na.rm = TRUE)) %>% #I want the standard error of these values
         pivot_wider(names_from = Variables,
               values_from = sd_vals) %>% 
   write_csv(here("Week_4","output", "sd_temp_salinity_spring.csv")) #Exporting with informative file name
@@ -36,8 +36,8 @@ View(ChemData_clean_spring)
  ChemData_clean_spring %>% #Data filtered in previous step 
    select(Temp_in, Salinity, Zone) %>%
    ggplot(aes(x=Temp_in, y=Salinity, color=Zone))+
-   geom_point()+
-   geom_smooth()+
+   geom_point()+ #scatter plot
+   geom_smooth()+ #demonstrating a possible trend
  labs(title="Temperature vs Salinity By Zone",
       subtitle="For aquatic biogeochemistry data",
       x="Temperature",
