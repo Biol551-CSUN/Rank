@@ -31,7 +31,8 @@ View(ChemData_clean_spring)
   write_csv(here("Week_4","output", "sd_temp_salinity_spring.csv")) #Exporting with informative file name
 
 
-##I would like to plot at salinity and temperature specifically during the spring
+#I would like to plot at salinity and temperature specifically during the spring.
+  
  ChemData_clean_spring %>% #Data filtered in previous step 
    select(Temp_in, Salinity, Zone) %>%
    ggplot(aes(x=Temp_in, y=Salinity, color=Zone))+
@@ -42,4 +43,5 @@ View(ChemData_clean_spring)
       x="Temperature",
       y="Salinity")+
  scale_color_viridis_d()#Colorblind friendly color scale
-   
+ ggsave(here("Week_4","output","hw_biogeo_plot.png"),
+        width = 8, height=6)
