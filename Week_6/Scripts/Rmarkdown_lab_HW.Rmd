@@ -1,0 +1,71 @@
+---
+title: "Rmarkdown Lab Homework"
+author: "Evan Rank"
+date: "3/3/2021"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      fig.path = "../output/")
+```
+
+# **Load Packages**
+
+```{r}
+library(here)
+library(tidyverse)
+library(palmerpenguins)
+library(kableExtra)
+```
+
+# **Clean Penguins Data**  
+
+
+```{r}
+PenguinsClean <- penguins %>%
+  filter(complete.cases(.))
+```
+
+# **Summarize**  
+
+
+```{r}
+PenguinsMean <- PenguinsClean %>%
+  group_by(sex, species) %>%
+  summarise(mean_body_mass =mean(body_mass_g)) %>% 
+  write_csv(here("Week_6","output", "meanmass.csv"))
+
+  view(PenguinsMean)
+```
+
+# **Table**
+
+|Sex   |Species	   |Mean Body Mass|
+|:-----|:----------|:-------|
+|female|	Adelie	 |3368.836|
+|female|	Chinstrap|3527.206|
+|female|	Gentoo	 |4679.741|
+|male  |	Adelie	 |4043.493|
+|male  |	Chinstrap|3938.971|
+|male  |	Gentoo	 |5484.836|
+
+# **Figure**
+
+We are going to look at the distribution of body mass by *species* and *sex*.
+```{r Penguin Figure HW}
+PenguinFigureHW<-PenguinsClean %>% 
+  ggplot(aes(x=species, y=body_mass_g, color=sex))+
+    geom_boxplot()+
+  labs(title = "Penguin Body Mass by Species and Sex",
+       x= "Species",
+       y= "Body Mass (g)",
+       color="Sex")
+PenguinFigureHW
+```
+

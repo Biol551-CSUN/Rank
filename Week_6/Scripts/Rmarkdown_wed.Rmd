@@ -1,0 +1,58 @@
+---
+title: "Rmarkdown_wed"
+author: "Evan Rank"
+date: "3/3/2021"
+output: 
+  html_document:  
+    toc: TRUE  
+    toc_float: TRUE  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message=FALSE,
+                      warnings=FALSE,
+                      fig.path = "../output/")
+```
+
+# Introduction
+Today we are using PalmerPenguins as an example to manipulate figures in Markdown  
+
+# Load libraries  
+
+```{r}
+library(palmerpenguins)
+library(tidyverse)
+library(here)
+library(kableExtra)
+```
+
+# Make a plot  
+
+```{r PenguinFigure, fig.align='center', fig.asp=1.2, fig.cap="This is a figure of penguin flipper length by species", echo=FALSE}
+PenguinFigure <- penguins %>% 
+  ggplot(aes(x=species, y=flipper_length_mm, color=island))+
+  geom_boxplot()
+
+PenguinFigure
+```
+
+# Create a table
+
+|Time|Session|Topic  |
+|:---|:-----:|------:|
+|Left|Center_|right  |
+|1:00|1|     |Anatomy|
+|1:50|       |*break*|
+|2:00|2      |Tables |
+|2:45|       |*break*|
+
+```{r}
+penguins %>% 
+  group_by(species) %>% 
+  summarise(billmean = mean(bill_length_mm, na.rm=TRUE)) %>%
+kbl() %>% #make it a kable table
+  kable_classic() %>% 
+  row_spec(2, bold=T, color="white", background="red")
+```
+
