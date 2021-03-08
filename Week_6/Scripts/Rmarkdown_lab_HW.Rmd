@@ -68,6 +68,6 @@ PenguinFigureHW<-PenguinsClean %>%
        x= "Species",
        y= "Body Mass (g)",
        color="Sex")
-PenguinFigureHW
+PenguinFigureHW #need to recall the object to display the graph in rmarkdown
 ```
 
