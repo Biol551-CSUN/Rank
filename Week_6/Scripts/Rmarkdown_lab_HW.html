@@ -249,10 +249,10 @@ div.tocify {
 
 <div id="load-packages" class="section level1">
 <h1><strong>Load Packages</strong></h1>
+<p>I will continue to use the Penguins data to demonstrate tables and figures in Markdown.</p>
 <pre class="r"><code>library(here)
 library(tidyverse)
-library(palmerpenguins)
-library(kableExtra)</code></pre>
+library(palmerpenguins)</code></pre>
 </div>
 <div id="clean-penguins-data" class="section level1">
 <h1><strong>Clean Penguins Data</strong></h1>
@@ -261,6 +261,7 @@ library(kableExtra)</code></pre>
 </div>
 <div id="summarize" class="section level1">
 <h1><strong>Summarize</strong></h1>
+<p>Let’s look at the means of the body mass variable that we will quantify in our graph.</p>
 <pre class="r"><code>PenguinsMean &lt;- PenguinsClean %&gt;%
   group_by(sex, species) %&gt;%
   summarise(mean_body_mass =mean(body_mass_g)) %&gt;% 
@@ -270,12 +271,13 @@ library(kableExtra)</code></pre>
 </div>
 <div id="table" class="section level1">
 <h1><strong>Table</strong></h1>
+<p>I will start by looking at the mean body mass of our penguin species by sex.</p>
 <table>
 <thead>
 <tr class="header">
-<th align="left">Sex</th>
-<th align="left">Species</th>
-<th align="left">Mean Body Mass</th>
+<th align="left"><em>Sex</em></th>
+<th align="left"><em>Species</em></th>
+<th align="left"><em>Mean Body Mass</em></th>
 </tr>
 </thead>
 <tbody>
@@ -314,7 +316,7 @@ library(kableExtra)</code></pre>
 </div>
 <div id="figure" class="section level1">
 <h1><strong>Figure</strong></h1>
-<p>We are going to look at the distribution of body mass by <em>species</em> and <em>sex</em>.</p>
+<p>We are going to plot the distribution of body mass by <em>species</em> and <em>sex</em>.</p>
 <pre class="r"><code>PenguinFigureHW&lt;-PenguinsClean %&gt;% 
   ggplot(aes(x=species, y=body_mass_g, color=sex))+
     geom_boxplot()+

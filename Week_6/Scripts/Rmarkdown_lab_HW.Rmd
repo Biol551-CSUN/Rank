@@ -16,16 +16,15 @@ knitr::opts_chunk$set(echo = TRUE,
 ```
 
 # **Load Packages**
+I will continue to use the Penguins data to demonstrate tables and figures in Markdown.
 
 ```{r}
 library(here)
 library(tidyverse)
 library(palmerpenguins)
-library(kableExtra)
 ```
 
 # **Clean Penguins Data**  
-
 
 ```{r}
 PenguinsClean <- penguins %>%
@@ -34,6 +33,7 @@ PenguinsClean <- penguins %>%
 
 # **Summarize**  
 
+Let's look at the means of the body mass variable that we will quantify in our graph.
 
 ```{r}
 PenguinsMean <- PenguinsClean %>%
@@ -46,7 +46,9 @@ PenguinsMean <- PenguinsClean %>%
 
 # **Table**
 
-|Sex   |Species	   |Mean Body Mass|
+I will start by looking at the mean body mass of our penguin species by sex.
+
+|*Sex* |*Species* |*Mean Body Mass*|
 |:-----|:----------|:-------|
 |female|	Adelie	 |3368.836|
 |female|	Chinstrap|3527.206|
@@ -57,7 +59,7 @@ PenguinsMean <- PenguinsClean %>%
 
 # **Figure**
 
-We are going to look at the distribution of body mass by *species* and *sex*.
+We are going to plot the distribution of body mass by *species* and *sex*. 
 ```{r Penguin Figure HW}
 PenguinFigureHW<-PenguinsClean %>% 
   ggplot(aes(x=species, y=body_mass_g, color=sex))+
