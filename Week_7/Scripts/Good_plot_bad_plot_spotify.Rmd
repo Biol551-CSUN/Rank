@@ -1,0 +1,30 @@
+---
+title: "Good plot / Bad plot"
+author: "Evan Rank"
+date: "3/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      fig.path = "../output/")
+```
+
+## Load Libraries
+
+```{r}
+library(here)
+library(tidyverse)
+library(tidytuesdayR) #Great source of free data, even outside of Tidy Tuesday submissions
+```
+
+## Load in Data
+
+```{r}
+spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv')
+
+view(spotify_songs)
+```
+

@@ -12,28 +12,31 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Introduction  
-Today we are working with penguin data to learn *Rmarkdown*.  
+## Introduction
 
-## Load Libraries  
+Today we are working with penguin data to learn *Rmarkdown*.
+
+## Load Libraries
+
 ```{r}
 library(palmerpenguins)
 library(tidyverse)
 library(here)
 ```
 
-## Inspect Data  
+## Inspect Data
+
 ```{r, include}
 glimpse(penguins)
 ```
 
-## Make a Simple Plot  
+## Make a Simple Plot
 
-This is a plot of penguins' bill length by bill depth. **Species** are in colors.  
-Species are  
-- Gentoo  
-- Adelie  
-- Chinstrap   
+This is a plot of penguins' bill length by bill depth. **Species** are in colors.\
+Species are\
+- Gentoo\
+- Adelie\
+- Chinstrap
 
 ```{r, warning=FALSE}
 penguins %>% 
@@ -44,4 +47,3 @@ penguins %>%
        y = "Bill Depth (mm)")+
   theme_bw()
 ```
-

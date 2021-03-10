@@ -1,0 +1,91 @@
+---
+title: "Week 7 Monday Lab Homework: Mapping"
+author: "Evan Rank"
+date: "3/8/2021"
+output: 
+  html_document:
+      toc: TRUE
+      toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      fig.path = "../Output/")
+```
+
+## Introduction
+
+We are practicing mapping with the data from Tidy Tuesday "Plastic Pollution."
+
+## Load Packages
+
+```{r}
+library(tidyverse)
+library(here)
+library(maps)
+library(mapdata)
+library(mapproj)
+library(tidytuesdayR)
+```
+
+## Load Data
+
+```{r}
+plastic <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-01-26/plastics.csv') #tidy tuesday data for world plastics waste pollution
+
+head(plastic)
+```
+
+## Prep to Join
+
+```{r}
+world <- map_data("world") %>% 
+  select("long", "lat", "country" = "region", "group")
+head(world)
+
+plastic1 <- plastic %>% 
+  select("country", "parent_company", "grand_total", "year") %>%
+  filter(parent_company=="Grand Total") %>% 
+  filter(year==2019) #narrowed down to the year with more data
+
+plastic1$country[13] = "Ivory Coast" #later anti-join found we needed to do this
+plastic1$country[15] = "Ecuador" #had to modify different names in data frame
+plastic1$country[33] = "Nigeria"
+plastic1$country[50] = "UK"
+plastic1$country[51] = "USA"
+
+head(plastic1)
+
+```
+
+## Join Dataframes
+
+```{r}
+PlasticWorld <- plastic1 %>% 
+  full_join(world, by = "country")
+head(PlasticWorld)
+```
+
+## Anti Join
+
+Checking for differences in country names
+
+```{r}
+AntiPlasticWorld <- plastic1 %>% #We had to find why certain data was missing
+  anti_join(world, by = "country") #country names were not all the same
+head(AntiPlasticWorld)
+```
+
+## Map Data
+
+```{r World Plastics Pollution}
+ggplot()+
+  geom_polygon(data=PlasticWorld, aes(x=long, y=lat, group=group, fill=grand_total), color="black")+
+  theme_void()+
+  coord_map("mercator", xlim=c(-180, 180))+
+   scale_fill_gradient(trans= "log10", name = "Total Plastic Pollution (log10)")+
+  labs(title = "World Plastics Pollution in 2019")
+```
+
