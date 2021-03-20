@@ -2,7 +2,10 @@
 title: "Good plot / Bad plot"
 author: "Evan Rank"
 date: "3/10/2021"
-output: html_document
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
 ---
 
 ```{r setup, include=FALSE}
@@ -11,6 +14,10 @@ knitr::opts_chunk$set(echo = TRUE,
                       warning = FALSE,
                       fig.path = "../output/")
 ```
+
+## Introduction
+
+My goal is to present a single dataset twice, one to make an example of how *not* to do a plot and the other as an example of how a publication-quality figure should be presented. The data used in this exercise is publicly available data from Spotify of over 30,000 different songs classified by artist, genre, and several other factors.
 
 ## Load Libraries
 
@@ -28,3 +35,36 @@ spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascie
 view(spotify_songs)
 ```
 
+## "Bad" Plot
+
+```{r}
+
+Bad_Plot_Spotify <- spotify_songs %>% 
+  filter(track_artist %in% c("Tones and I", "Arizona Zervas", "KAROL G", "Maroon 5", "The Weeknd", "Post Malone")) %>% 
+  ggplot(aes(x=track_artist))+
+  geom_bar()+
+  labs(title = "we the best music",
+       y="")
+
+Bad_Plot_Spotify
+```
+
+## "Good" Plot
+
+```{r}
+Good_Plot_Spotify <- spotify_songs %>% 
+  filter(track_popularity %in% c(100,99,98,97,96,95)) %>% 
+  ggplot(aes(y=track_artist, fill=playlist_genre))+
+  geom_bar()+
+   labs(title = "Artists of the Top Tracks of 2020",
+        subtitle = "Separated by Genre",
+        x="Count",
+        y="Artist",
+        fill = "Genre")+
+  scale_color_viridis_d()
+
+Good_Plot_Spotify
+
+```
+ 
+ 
