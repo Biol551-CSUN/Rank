@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE,
 
 ## Introduction
 
-My goal is to present a single dataset twice, one to make an example of how *not* to do a plot and the other as an example of how a publication-quality figure should be presented. The data used in this exercise is publicly available data from Spotify of over 30,000 different songs classified by artist, genre, and several other factors.
+My goal is to present a single dataset twice, one to make an example of how *not* to do a plot and the other as an example of how a publication-quality figure should be presented. The data used in this exercise is publicly available data from Spotify of over 30,000 songs classified by artist, genre, and several other factors. The data was assembled from TidyTuesday on Github, but was originally sourced from Spotify's web API.
 
 ## Load Libraries
 
@@ -30,14 +30,19 @@ library(tidytuesdayR) #Great source of free data, even outside of Tidy Tuesday s
 ## Load in Data
 
 ```{r}
-spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv')
+spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv') %>% 
+write_csv(here("Week_7","Data", "spotify_songs.csv")) #in case we need to access data outside the R package
 
 view(spotify_songs)
+
+
 ```
 
 ## "Bad" Plot
 
-```{r}
+This plot is poor in both viewing and in data selection. The tracks used to determine the "popular" artists are only the first 6 unique popular songs.
+
+```{r, Bad Plot Spotify}
 
 Bad_Plot_Spotify <- spotify_songs %>% 
   filter(track_artist %in% c("Tones and I", "Arizona Zervas", "KAROL G", "Maroon 5", "The Weeknd", "Post Malone")) %>% 
@@ -51,17 +56,26 @@ Bad_Plot_Spotify
 
 ## "Good" Plot
 
-```{r}
+Instead of selecting the "top" artists by only a few songs, I determined them by the tracks with a score of "95" and above, with "100" being the best possible score. This should give us a greater sample size of popular tracks to which artists were most influential. The genre was also included.
+
+```{r, Good_Plot_Spotify}
 Good_Plot_Spotify <- spotify_songs %>% 
   filter(track_popularity %in% c(100,99,98,97,96,95)) %>% 
   ggplot(aes(y=track_artist, fill=playlist_genre))+
-  geom_bar()+
-   labs(title = "Artists of the Top Tracks of 2020",
-        subtitle = "Separated by Genre",
-        x="Count",
+  geom_bar()+ #Data frame suited for "counts"
+   labs(title = "Top Artists of of 2019", #source was not specific on date, but the original blog post for the data was published at the tail end of 2019.
+        subtitle = "by Top Played Tracks | Data from Spotify",
+        x="Number of Top Tracks",
         y="Artist",
         fill = "Genre")+
-  scale_color_viridis_d()
+  theme_classic()+ #Built in theme for removing gridlines
+  theme(plot.title = element_text(size = 22), #Custom text size and colors from here on
+        plot.subtitle= element_text (size =14),
+    axis.title=element_text(size = 15),
+    legend.title=element_text(size=12),
+panel.background=element_rect(fill="beige"),
+legend.text=element_text(size=10))+
+  scale_color_viridis_d() #colorblind friendly color scheme
 
 Good_Plot_Spotify
 
