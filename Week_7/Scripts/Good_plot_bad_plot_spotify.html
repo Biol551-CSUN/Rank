@@ -267,6 +267,7 @@ view(spotify_songs)</code></pre>
 <div id="bad-plot" class="section level2">
 <h2>“Bad” Plot</h2>
 <p>This plot is poor in both viewing and in data selection. The tracks used to determine the “popular” artists are only the first 6 unique popular songs.</p>
+<p>The graph is in the default ugly gray, the title is poor, and there is no label for the y axis.</p>
 <pre class="r"><code>Bad_Plot_Spotify &lt;- spotify_songs %&gt;% 
   filter(track_artist %in% c(&quot;Tones and I&quot;, &quot;Arizona Zervas&quot;, &quot;KAROL G&quot;, &quot;Maroon 5&quot;, &quot;The Weeknd&quot;, &quot;Post Malone&quot;)) %&gt;% 
   ggplot(aes(x=track_artist))+
@@ -280,6 +281,7 @@ Bad_Plot_Spotify</code></pre>
 <div id="good-plot" class="section level2">
 <h2>“Good” Plot</h2>
 <p>Instead of selecting the “top” artists by only a few songs, I determined them by the tracks with a score of “95” and above, with “100” being the best possible score. This should give us a greater sample size of popular tracks to which artists were most influential. The genre was also included.</p>
+<p>Additional information was added to inform the viewer of popular genres as well as artists. Colors don’t clash, and labeling is as concise and accurate as possible.</p>
 <pre class="r"><code>Good_Plot_Spotify &lt;- spotify_songs %&gt;% 
   filter(track_popularity %in% c(100,99,98,97,96,95)) %&gt;% 
   ggplot(aes(y=track_artist, fill=playlist_genre))+

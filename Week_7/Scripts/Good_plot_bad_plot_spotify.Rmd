@@ -40,7 +40,9 @@ view(spotify_songs)
 
 ## "Bad" Plot
 
-This plot is poor in both viewing and in data selection. The tracks used to determine the "popular" artists are only the first 6 unique popular songs.
+  This plot is poor in both viewing and in data selection. The tracks used to determine the "popular" artists are only the first 6 unique popular songs.  
+
+  The graph is in the default ugly gray, the title is poor, and there is no label for the y axis.
 
 ```{r, Bad Plot Spotify}
 
@@ -56,8 +58,9 @@ Bad_Plot_Spotify
 
 ## "Good" Plot
 
-Instead of selecting the "top" artists by only a few songs, I determined them by the tracks with a score of "95" and above, with "100" being the best possible score. This should give us a greater sample size of popular tracks to which artists were most influential. The genre was also included.
+  Instead of selecting the "top" artists by only a few songs, I determined them by the tracks with a score of "95" and above, with "100" being the best possible score. This should give us a greater sample size of popular tracks to which artists were most influential. The genre was also included.  
 
+  Additional information was added to inform the viewer of popular genres as well as artists. Colors don't clash, and labeling is as concise and accurate as possible.
 ```{r, Good_Plot_Spotify}
 Good_Plot_Spotify <- spotify_songs %>% 
   filter(track_popularity %in% c(100,99,98,97,96,95)) %>% 
