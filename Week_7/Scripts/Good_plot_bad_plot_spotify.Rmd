@@ -1,5 +1,5 @@
 ---
-title: "Good plot / Bad plot"
+title: "Good plot / Bad plot - Spotify Plays"
 author: "Evan Rank"
 date: "3/10/2021"
 output: 
