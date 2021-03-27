@@ -1,0 +1,88 @@
+---
+title: "Functions Lab"
+author: "Evan Rank"
+date: "3/24/2021"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      fig.path = "../output/")
+```
+
+## Introduction
+
+  We will be practicing with the Palmer Penguins data to create one function for box plotting and another for defining a ratio between any two data points.
+  
+## Load Libraries
+
+```{r}
+library(tidyverse)
+library(here)
+library(palmerpenguins) #our data
+```
+
+## First Function (Data Frame)
+
+```{r}
+measurement_ratio <- function(x,y){ #simple function to return division
+  ratio <- (x /y)
+  return(ratio)
+}
+```
+
+## Testing Data Function
+
+```{r}
+penguinsratio <- penguins %>% 
+  mutate(length_depth_ratio = measurement_ratio(bill_length_mm, bill_depth_mm)) #first example
+
+penguinsratio <-penguinsratio %>% #updating the same object
+  mutate(flipper_bodymass_ratio = measurement_ratio(flipper_length_mm, body_mass_g)) #second example
+
+head(penguinsratio)
+```
+
+## Second Function (Plot)
+  
+  I am going to make a box plot function, so I can apply it quickly to any data if I want to view the distribution.
+
+```{r, penguinFlipper}
+penguins %>% 
+  ggplot(aes(x=species, y=flipper_length_mm, color=island))+ #Plot used as the base of the function
+  geom_boxplot() 
+```
+
+## Copy and Replace to Create Function
+
+```{r}
+fplot <- function (data, x, y, z){ #replacing defined variables with x, y, or group)
+    ggplot(data, aes(x={{x}}, y={{y}}, color={{z}}))+
+   geom_boxplot()
+}
+```
+
+## Testing Function
+
+```{r, fpenguinFlipper}
+fplot(data = penguins, x=species, y=flipper_length_mm, z=island)
+```
+
+## New Example with Layering
+
+```{r, fpenguinBodyMass}
+fplot(data = penguins, x=species, y=body_mass_g, z=species)+ #Testing with body mass, color by species for simpler viewing
+  facet_wrap(~island)+ #why we previously colored by species instead of island
+  labs(x="Species", #adding labels as well
+       y="Body Mass (g)",
+       color= "Island",
+       title="Body Mass of Penguins by Species")
+  
+```
+
