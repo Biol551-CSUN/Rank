@@ -1,0 +1,57 @@
+---
+title: "Intertidal Factors Lab"
+author: "Evan Rank"
+date: "4/21/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      fig.path = "../output/")
+```
+
+## Load Libraries
+
+```{r}
+library(tidyverse)
+library(here)
+library(forcats)
+```
+
+## Load Data
+
+```{r}
+intertidal <- read_csv(here("Week_12", "Data", "intertidaldata.csv"))
+```
+
+## Clean Data
+
+  A few typos in the quadrat labels would hinder our plotting. We can deal with these in fct_recode.
+```{r}
+intertidal_clean <- intertidal %>% 
+mutate(Quadrat = fct_recode(Quadrat, "Mid" = "Mid  1", "Low" = 	
+"Low  ."))
+
+view(intertidal_clean)
+```
+
+## Plotting with Reorder
+
+  We can reorganize the plotting of the low, mid, and high quadrats. We can relabel "Quadrat" here because we are really just looking at observations at a tidal level, and clarify the measurement used for "Algae."
+  
+```{r, Intertidal Algae Distribution}
+ggplot(intertidal_clean, aes(x= fct_reorder(Quadrat, Algae, .desc = TRUE), y = Algae))+
+  facet_wrap(~ Site)+
+  geom_boxplot()+
+  labs(x="Tidal Level", #"Quadrat" was a weird way to call this column
+       y="Algae Cover (%)", #specifying the measurement method
+       title="Algae Cover in Intertidal Observations",
+       subtitle="by Locale")+
+  theme_bw()+
+  theme(plot.title = element_text(hjust = 0.5, color = "gray11"),
+        plot.subtitle = element_text(hjust = 0.5, color = "gray10"))
+```
+
+
