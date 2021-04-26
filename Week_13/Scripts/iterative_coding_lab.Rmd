@@ -1,0 +1,88 @@
+---
+title: "Iterative Coding Lab"
+author: "Evan Rank"
+date: "4/26/2021"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+## Introduction
+
+  Today's goal is to calculate the mean and standard deviation of both temperature and light intensity of four separate tide pool data files, bringing the results into one dataframe using iterative coding methods; a for loop and mapping function will be showcased separately.
+
+## Load Libraries
+
+```{r}
+library(tidyverse)
+library(here)
+library(purrr)
+```
+
+## For Loop method
+
+# Bring in data using directory path
+
+```{r}
+tppath<-here("Week_13", "Data", "homework")
+
+files <- dir(path = tppath, pattern = ".csv")#picks up all csv in the directory
+files
+```
+
+# Assign new data frame
+
+```{r}
+tp_data<-data.frame(matrix(nrow = length(files), ncol = 5)) #mean and sd 2x2 columns, then one for pool name
+colnames(tp_data)<-c("filename","mean_temp", "sd_temp", "mean_light_intensity", "sd_light_intensity")
+tp_data
+```
+
+# Fill new data frame
+
+```{r}
+for (i in 1:length(files)){ # loop over the number of files 
+  raw_data<-read_csv(paste0(tppath,"/",files[i])) 
+
+   tp_data$filename[i]<-files[i]
+ tp_data$mean_temp[i]<-mean(raw_data$Temp.C, na.rm =TRUE)
+   tp_data$sd_temp[i]<-sd(raw_data$Temp.C, na.rm =TRUE)
+  tp_data$mean_light_intensity[i]<-mean(raw_data$Intensity.lux, na.rm = TRUE)
+  tp_data$sd_light_intensity[i]<-sd(raw_data$Intensity.lux, na.rm =TRUE)
+}
+
+tp_data
+```
+
+## Purrr Method
+
+# Load in data
+
+```{r}
+tppath2<-here("Week_13", "Data", "homework") #same path
+files2 <- dir(path = tppath2,pattern = ".csv",full.names = TRUE) #add full.names for function to read file and not just name
+files2
+```
+
+# Mapping and calculating
+
+```{r}
+tpdata2<-files2 %>%
+  set_names()%>%
+  map_df(read_csv,.id = "filename") %>%
+  group_by(filename) %>%
+  summarise(mean_temp = mean(Temp.C, na.rm = TRUE),
+            sd_temp = sd(Temp.C, na.rm = TRUE),
+            mean_light_intensity = mean(Intensity.lux, na.rm = TRUE),
+            sd_light_intensity = sd(Intensity.lux, na.rm = TRUE))
+
+tpdata2
+```
+
