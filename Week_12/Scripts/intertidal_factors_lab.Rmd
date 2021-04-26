@@ -2,7 +2,10 @@
 title: "Intertidal Factors Lab"
 author: "Evan Rank"
 date: "4/21/2021"
-output: html_document
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
 ---
 
 ```{r setup, include=FALSE}
@@ -21,7 +24,7 @@ library(forcats)
 ```
 
 ## Load Data
-
+  
 ```{r}
 intertidal <- read_csv(here("Week_12", "Data", "intertidaldata.csv"))
 ```
@@ -32,9 +35,7 @@ intertidal <- read_csv(here("Week_12", "Data", "intertidaldata.csv"))
 ```{r}
 intertidal_clean <- intertidal %>% 
 mutate(Quadrat = fct_recode(Quadrat, "Mid" = "Mid  1", "Low" = 	
-"Low  ."))
-
-view(intertidal_clean)
+"Low  .")) 
 ```
 
 ## Plotting with Reorder
@@ -42,16 +43,16 @@ view(intertidal_clean)
   We can reorganize the plotting of the low, mid, and high quadrats. We can relabel "Quadrat" here because we are really just looking at observations at a tidal level, and clarify the measurement used for "Algae."
   
 ```{r, Intertidal Algae Distribution}
-ggplot(intertidal_clean, aes(x= fct_reorder(Quadrat, Algae, .desc = TRUE), y = Algae))+
-  facet_wrap(~ Site)+
+ggplot(intertidal_clean, aes(x= fct_reorder(Quadrat, Algae, .desc = TRUE), y = Algae))+#reorders as low, mid, high
+  facet_wrap(~ Site)+ #viewing each location side by side
   geom_boxplot()+
-  labs(x="Tidal Level", #"Quadrat" was a weird way to call this column
-       y="Algae Cover (%)", #specifying the measurement method
+  labs(x="Tidal Zone", #"Quadrat" is the measurement method, but the data within is the location in the tidal zone
+       y="Algae Cover (%)", #specifying the type of observation, and units
        title="Algae Cover in Intertidal Observations",
        subtitle="by Locale")+
-  theme_bw()+
-  theme(plot.title = element_text(hjust = 0.5, color = "gray11"),
-        plot.subtitle = element_text(hjust = 0.5, color = "gray10"))
+  theme_bw()+ 
+  theme(plot.title = element_text(hjust = 0.5, color = "gray11"), #centering title
+        plot.subtitle = element_text(hjust = 0.5, color = "gray10")) #and subtitle
 ```
 
 
